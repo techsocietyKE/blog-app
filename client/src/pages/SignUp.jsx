@@ -7,6 +7,7 @@ import {
   AlertDescription,
   Spinner,
 } from '@chakra-ui/react'
+import OAuth from '../components/OAuth'
 
 export default function SignUp() {
   const [formData,setFormData] = useState({})
@@ -102,9 +103,7 @@ export default function SignUp() {
         <Link className='text-[blue]' to='/sign-in'>Sign In</Link>
        </div>
           </form>
-          <button type='submit' className='text-xl text-black hover:text-white font-semibold hover:bg-gradient-to-r py-1 rounded-md mt-3 w-full border border-purple-400 from-purple-700 to-pink-700' >
-          Continue with Google
-          </button>
+         <OAuth/>
           {
          errorMessage &&(
           <Alert status='error'>

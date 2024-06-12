@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useDispatch,useSelector } from 'react-redux'
 import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice'
+import OAuth from '../components/OAuth'
 
 export default function SignIn() {
   const [formData,setFormData] = useState({})
@@ -41,56 +42,48 @@ export default function SignIn() {
 
       if(res.ok){
         dispatch(signInSuccess(data))
-        // navigate('/')
+        navigate('/')
       }
     } catch (error) {
       dispatch(signInFailure(error.message))
     }
   }
   return (
-    <div className='min-h-screen mt-20'>
-      <div className='flex gap-5 p-3 max-w-3xl mx-auto flex-col md:items-center md:flex-row '>
-        <div className='flex-1'>
-        <Link className='flex whitespace-nowrap' to={'/'}>
-          <span className='text-6xl px-2 rounded-lg text-white bg-gradient-to-r from-blue-600 via-blue-500 to-pink-500'>Tech</span><h1 className='text-6xl'>Masters</h1>
-          </Link>
-        </div>
-        <div className='flex-1'>
-          <form onSubmit={handleSubmit}>
-            <div className="">
-              <label className="block text-gray-700 text-xl  mb-3" >Email</label>
-              <input
-              className='w-full my-1 border border-gray-400  py-1 outline-none rounded-md'
-              type='text'
-              placeholder='email'
-              id='email'
-              onChange={handleChange}
-              />
-            </div>
-            <div className="">
-              <label className="block text-gray-700 text-xl  mb-3" >Password</label>
-              <input
-              className='w-full my-1 border border-gray-400  py-1 outline-none rounded-md'
-              type='password'
-              placeholder='password'
-              id='password'
-              onChange={handleChange}
-              />
-            </div>
-            <div className='w-full flex'>
-         <button type='submit' className='text-xl font-semibold bg-gradient-to-r py-1 rounded-md mt-3 w-full text-white from-purple-700 to-pink-700'  disabled={loading}>
-       Sign In
-       </button>
-       </div>
-       <div className='my-2 gap-3 flex text-xl'>
-        <span>Dont have an account</span>
-        <Link className='text-[blue]' to='/sign-up'>Sign Up</Link>
-       </div>
-          </form>
-          <button type='submit' className='text-xl text-black hover:text-white font-semibold hover:bg-gradient-to-r py-1 rounded-md mt-3 w-full border border-purple-400 from-purple-700 to-pink-700' >
-          Continue with Google
-          </button>
-          {
+    <div>
+      <section class="bg-gray-50 dark:bg-gray-900">
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                  Sign in to your account
+              </h1>
+              <form class="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                  <div>
+                      <label  class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Your email</label>
+                      <input 
+                      type="email" 
+                      id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-gray-50 focus:border-gray-50 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      placeholder="name@gmail.com"
+                      onChange={handleChange}
+                     />
+                  </div>
+                  <div>
+                      <label for="password" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Password</label>
+                      <input 
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-gray-50 focus:border-gray-50 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      type="password" 
+                      id="password"
+                      placeholder="••••••••"
+                      onChange={handleChange}
+                      />
+                  </div>
+                
+                  <button type="submit" class="w-full text-white font-medium rounded-lg text-md px-5 py-2.5 text-center bg-gradient-to-r from-slate-900 via-slate-500 to-slate-900" disabled={loading}>Sign in</button>
+                 <OAuth/>
+                  <p class="text-md font-light text-gray-500 dark:text-gray-400">
+                      Don’t have an account yet? <Link to="/sign-up" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
+                  </p>
+                  {
          errorMessage &&(
           <Alert status='error'>
           <AlertIcon />
@@ -98,8 +91,12 @@ export default function SignIn() {
         </Alert>
          )
         }
-        </div>
+              </form>
+              
+          </div>
       </div>
+  </div>
+</section>
     </div>
   )
 }

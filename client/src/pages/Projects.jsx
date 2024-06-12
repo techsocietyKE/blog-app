@@ -1,7 +1,11 @@
 import React from 'react'
 
-export default function Projects() {
+const Projects = () => {
   return (
-    <div>Projects</div>
+   <div>
+    projects
+   </div>
   )
 }
+
+export default Projects
