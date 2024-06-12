@@ -1,25 +1,33 @@
-import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AiOutlineSearch ,AiOutlineMenu } from 'react-icons/ai';
+
+import { Link, useLocation, } from 'react-router-dom';
+import { AiOutlineMenu } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useRef } from 'react';
-import { useDisclosure } from '@chakra-ui/react';
+import { IconButton, useDisclosure } from '@chakra-ui/react';
+import { FaRegCircleUser } from "react-icons/fa6";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from '@chakra-ui/react'
-
-
+import {useSelector,useDispatch} from 'react-redux'
+import { toggleTheme } from '../redux/theme/themeSlice';
 export default function Header() {
+  const dispatch = useDispatch()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
 const path = useLocation().pathname
-  
+  const {currentUser} = useSelector(state=>state.user)
+  const {theme} = useSelector((state)=>state.theme)
   return (
    <div>
     <div className='flex justify-between items-center border-b mt-3 mx-2 py-2'>
@@ -50,14 +58,45 @@ const path = useLocation().pathname
            />
           </div>
           <div>
-            <FaMoon/>
+           <button onClick={()=>dispatch(toggleTheme())}>
+           {theme === 'light'? <FaSun/>: <FaMoon/>}
+           </button>
           </div>
           <div>
-          <Link to='/sign-in'>
-          <button className='bg-gradient-to-r from-blue-600 via-blue-500 to-pink-500 text-white px-4 py-1 rounded-md text-lg font-semibold'>
-              Sign In
-            </button>
-          </Link>
+            {currentUser ?(
+              <div className=''>
+             <Menu>
+  <MenuButton
+  className='rounded-full'
+    as={IconButton}
+    aria-label='menu'
+    icon={<FaRegCircleUser  />}
+  />
+  <MenuList>
+  <MenuGroup title='Profile'>
+      <MenuItem>{currentUser.username}</MenuItem>
+      <MenuItem><span className='text-sm truncate'>{currentUser.email}</span> </MenuItem>
+    </MenuGroup>
+    <MenuDivider />
+    <MenuGroup title='Help'>
+      <MenuItem>
+      <Link to='/dashboard?tab=profile'>
+
+      </Link>
+      </MenuItem>
+      <MenuItem>FAQ</MenuItem>
+    </MenuGroup>
+  </MenuList>
+</Menu>
+              </div>
+            ):(
+                   <Link to='/sign-in'>
+                   <button className='bg-gradient-to-r from-blue-600 via-blue-500 to-pink-500 text-white px-4 py-1 rounded-md text-lg font-semibold'>
+                       Sign In
+                     </button>
+                   </Link>
+            )}
+       
           </div>
           <div className='md:hidden flex'>
             <button ref={btnRef} onClick={onOpen}>
